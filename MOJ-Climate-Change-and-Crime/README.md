@@ -23,11 +23,16 @@ In particular [Mar 2013-onwards](https://assets.publishing.service.gov.uk/govern
 
 ## Getting Started
 
-A basic [Conda environment](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#) is available via `requirements.yml`. 
+A basic [Conda environment](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#) is available via `requirements.yml`, called `mocdc-moj`. 
 To duplicate this environment do:
 ```shell
-conda env create -f environment.yml
+$ conda env create -f environment.yml
 ```
+Then activate the environement with:
+```shell
+$ conda activate mocdc-moj
+```
+
 This environment contains a few core python libraries:
 
 * python 3.7
@@ -42,3 +47,9 @@ This environment contains a few core python libraries:
 * statsmodels 0.13.0
 
 ... and more. Inspect the yaml file for a complete list.  You are welcome to update or add libraries, but beware that packagae dependencies might cause complicated upgrade/downgrades which may cause breaking chages to code.
+
+If you want to work in [Jupyter Lab](https://jupyter.org/), you can add this conda environment to your jupyter lab instance by:
+```shell
+$ conda activate mocdc-moj
+(mocdc-moj) $ ipython kernel install --user --name=mocdc-moj
+```
