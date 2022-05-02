@@ -14,6 +14,8 @@ Subteams:
 Data only seems to be available at quarterly intervals.  Data sourced from here: https://www.gov.uk/government/statistics/police-recorded-crime-open-data-tables
 In particular [Mar 2013-onwards](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1070772/prc-pfa-mar2013-onwards-tables-220422.ods) and [Mar 2008 - Mar 2012](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/561334/prc-pfa-mar2008-mar2012-tabs.ods).
 
+Monthly data available for London: https://data.london.gov.uk/dataset/recorded_crime_summary
+
 
 ## Climate change crime inequality
 
