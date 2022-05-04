@@ -4,7 +4,7 @@ output: html_notebook
 ---
 
 
-```{r setup echo = FALSE}
+```{r echo = FALSE}
 library(tidyverse)
 ```
 
@@ -14,6 +14,7 @@ gini_data <- readr::read_csv(file.path(dir, "Gini_coeff.csv"),
                              skip=7,
                              col_names = c("Region", "July_2006_June_2008", "April_2016_March_2018"))
 ifs_data <- readr::read_csv(file.path(dir, "inequality_ifs.csv"), skip=2)
+crime_2016 <- readr::read_csv(file.path(dir, "data_2016.csv"))
 ````
 
 ```{r}
@@ -21,12 +22,66 @@ gini_data
 ```
 
 ```{r}
+sort(crime_2016$`Area Name`)
+```
+
+```{r}
+London = c("Metropolitan Police", "London, City of")
+East = c("Bedfordshire", "Cambridgeshire", "Essex", "Hertfordshire", "Norfolk", "Suffolk")
+South_East = c("Hampshire", "Kent", "Surrey", "Sussex", "Thames Valley")
+South_West = c("Avon & Somerset", "Devon & Cornwall", "Dorset", "Gloucestershire", "Wiltshire")
+East_Midlands = c("Derbyshire", "Leicestershire", "Lincolnshire", "Northamptonshire", "Nottinghamshire")
+West_Midlands = c("Staffordshire", "Warwickshire", "West Mercia", "West Midlands")
+Yorks_and_the_Humber = c("Humberside", "North Yorkshire", "South Yorkshire", "West Yorkshire")
+North_East = c("Cleveland", "Durham", "Northumbria")
+North_West = c("Cheshire", "Cumbria", "Greater Manchester", "Merseyside", "Lancashire")
+NI = c("Police Service of Northern Ireland")
+Wales = c("Dyfed-Powys", "North Wales", "South Wales", "Gwent")
+crime_2016 <- mutate(crime_2016, Region = case_when(`Area Name` %in% London ~ "London",
+                     `Area Name` %in% East ~ "East of England",
+                     `Area Name` %in% South_East ~ "South East",
+                     `Area Name` %in% South_West ~ "South West",
+                     `Area Name` %in% East_Midlands ~ "East Midlands",
+                     `Area Name` %in% West_Midlands ~ "West Midlands",
+                     `Area Name` %in% Yorks_and_the_Humber ~ "Yorks and the Humber",
+                     `Area Name` %in% North_East ~ "North East",
+                     `Area Name` %in% North_West ~ "North West",
+                     `Area Name` %in% Wales ~ "Wales"))
+crime_and_gini <- inner_join(crime_2016, dplyr::select(gini_data, Region, Gini_coeff = April_2016_March_2018))
+crime_and_gini
+```
+
+```{r}
 ifs_data
 ifs_gini_data <- filter(ifs_data, Country=="UK") %>% dplyr::select(Year, Gini = `Gini coefficient`)
+ifs_gini_data
 ``` 
+
+
 
 ```{r}
 ggplot(arrange(gini_data, (April_2016_March_2018))) +
   geom_col(aes(factor(Region, levels=unique(Region)), April_2016_March_2018)) +
   xlab("Region") + ylab("Gini Coefficient") + coord_flip(ylim=c(50,NA))
+```
+```{r}
+crime_vars = names(crime_2016)
+crime_vars = crime_vars[4: length(crime_vars) - 1]
+
+for (var in crime_vars) {
+  ggplot(dplyr::rename(crime_and_gini, var:= {{var}})) +
+  geom_col(aes(x=`Area Name`, var, fill=Region)) +
+  xlab(var) + ylab("Total recorded crime") + coord_flip()
+  ggsave(file.path(dir, paste(var, ".png")))
+}
+
+```
+
+Take population data and find rates per 100,000 people
+Aggregate over whole region
+
+Plot crime variables 
+Plot crime and Gini together
+```{r}
+ggplot(crime_and_gini) + geom_point(aes(Gini_coeff, `Total recorded crime (excluding fraud)`, col = Region))
 ```
