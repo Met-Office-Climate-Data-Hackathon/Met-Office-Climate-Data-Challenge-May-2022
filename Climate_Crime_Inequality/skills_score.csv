@@ -1,0 +1,318 @@
+"Name","mean_education_score"
+"Adur",26.4302619047619
+"Allerdale",27.3704
+"Amber Valley",25.971858974359
+"Arun",24.6315
+"Ashfield",35.9129324324324
+"Ashford",22.5965384615385
+"Aylesbury Vale",14.6508260869565
+"Babergh",18.5186851851852
+"Barking and Dagenham",25.8425090909091
+"Barnet",7.73626066350711
+"Barnsley",37.2074285714286
+"Barrow-in-Furness",26.7083265306122
+"Basildon",31.6428
+"Basingstoke and Deane",16.4049816513761
+"Bassetlaw",28.1362714285714
+"Bath and North East Somerset",14.5314869565217
+"Bedford",18.9040194174757
+"Bexley",18.2816849315068
+"Birmingham",31.3438888888889
+"Blaby",17.1865
+"Blackburn with Darwen",33.9631538461538
+"Blackpool",39.0219787234043
+"Bolsover",35.39825
+"Bolton",25.8462881355932
+"Boston",40.783
+"Bournemouth, Christchurch and Poole",19.4668326180258
+"Bracknell Forest",17.3795066666667
+"Bradford",36.1535870967742
+"Braintree",21.668632183908
+"Breckland",33.0767948717949
+"Brent",14.7974913294798
+"Brentwood",12.451347826087
+"Brighton and Hove",18.803103030303
+"Bristol, City of",27.3663307984791
+"Broadland",16.0991071428571
+"Bromley",10.5117512690355
+"Bromsgrove",10.8385517241379
+"Broxbourne",24.958
+"Broxtowe",16.6609718309859
+"Burnley",34.9786166666667
+"Bury",18.31905
+"Calderdale",21.8888359375
+"Cambridge",10.7270144927536
+"Camden",10.4027744360902
+"Cannock Chase",30.8045833333333
+"Canterbury",18.739
+"Carlisle",29.49275
+"Castle Point",29.7201578947368
+"Central Bedfordshire",16.9031910828025
+"Charnwood",17.7232929292929
+"Chelmsford",13.232953271028
+"Cheltenham",15.42768
+"Cherwell",21.2046559139785
+"Cheshire East",14.3014957264957
+"Cheshire West and Chester",18.7825
+"Chesterfield",25.5136666666667
+"Chichester",14.8155492957746
+"Chiltern",6.09919298245614
+"Chorley",15.6830454545455
+"City of London",5.3635
+"Colchester",18.3796571428571
+"Copeland",29.4301836734694
+"Corby",40.585243902439
+"Cornwall",19.1014018404908
+"Cotswold",11.2663725490196
+"County Durham",25.4807438271605
+"Coventry",24.9369435897436
+"Craven",13.0643125
+"Crawley",28.1492424242424
+"Croydon",15.4448681818182
+"Dacorum",16.3348617021277
+"Darlington",28.3816307692308
+"Dartford",19.5774827586207
+"Daventry",17.6442954545455
+"Derby",32.0755099337748
+"Derbyshire Dales",12.3031395348837
+"Doncaster",39.4588659793814
+"Dorset",18.4527671232877
+"Dover",24.669223880597
+"Dudley",27.4100895522388
+"Ealing",12.2704234693878
+"East Cambridgeshire",16.6199
+"East Devon",14.6604197530864
+"East Hampshire",11.3267777777778
+"East Hertfordshire",8.89054761904762
+"East Lindsey",32.0264938271605
+"East Northamptonshire",23.2399591836735
+"East Riding of Yorkshire",17.2067666666667
+"East Staffordshire",21.8133055555556
+"East Suffolk",25.2498150684931
+"Eastbourne",24.8988360655738
+"Eastleigh",14.6702207792208
+"Eden",18.70625
+"Elmbridge",7.07723456790123
+"Enfield",19.8789344262295
+"Epping Forest",19.3455512820513
+"Epsom and Ewell",8.06568181818182
+"Erewash",27.0273835616438
+"Exeter",18.5733918918919
+"Fareham",10.8520273972603
+"Fenland",38.0637454545455
+"Folkestone and Hythe",25.6345820895522
+"Forest of Dean",24.16874
+"Fylde",12.3898039215686
+"Gateshead",26.7812698412698
+"Gedling",18.4654805194805
+"Gloucester",27.490858974359
+"Gosport",29.27
+"Gravesham",26.3478125
+"Great Yarmouth",40.8850327868852
+"Greenwich",15.4468609271523
+"Guildford",11.5696666666667
+"Hackney",15.1374652777778
+"Halton",30.1808481012658
+"Hambleton",14.8280384615385
+"Hammersmith and Fulham",8.11980530973451
+"Harborough",11.1188510638298
+"Haringey",17.0595931034483
+"Harlow",27.3543148148148
+"Harrogate",10.2822596153846
+"Harrow",8.10094160583942
+"Hart",6.56535087719298
+"Hartlepool",29.520224137931
+"Hastings",33.4268679245283
+"Havant",30.5339743589744
+"Havering",22.33428
+"Herefordshire, County of",20.3362413793103
+"Hertsmere",13.8336129032258
+"High Peak",18.122406779661
+"Hillingdon",16.0271614906832
+"Hinckley and Bosworth",21.6681666666667
+"Horsham",9.31892592592593
+"Hounslow",13.4312676056338
+"Huntingdonshire",18.2750952380952
+"Hyndburn",29.73225
+"Ipswich",33.1343764705882
+"Isle of Wight",25.8249213483146
+"Isles of Scilly",9.671
+"Islington",12.4897804878049
+"Kensington and Chelsea",5.41809708737864
+"Kettering",23.3934210526316
+"King's Lynn and West Norfolk",32.891595505618
+"Kingston upon Hull, City of",41.7442951807229
+"Kingston upon Thames",6.99013265306122
+"Kirklees",24.9220501930502
+"Knowsley",42.5146428571429
+"Lambeth",10.7400112359551
+"Lancaster",20.7424943820225
+"Leeds",26.2454937759336
+"Leicester",37.2968489583333
+"Lewes",20.4822096774194
+"Lewisham",14.0809585798817
+"Lichfield",15.8521206896552
+"Lincoln",31.7554912280702
+"Liverpool",33.4987214765101
+"Luton",26.3848925619835
+"Maidstone",18.6849789473684
+"Maldon",20.441925
+"Malvern Hills",12.1795111111111
+"Manchester",28.1196028368794
+"Mansfield",36.7010298507463
+"Medway",28.0054539877301
+"Melton",15.5013666666667
+"Mendip",18.0665454545455
+"Merton",9.00364516129032
+"Mid Devon",20.0512093023256
+"Mid Suffolk",16.3762321428571
+"Mid Sussex",10.4338953488372
+"Middlesbrough",38.7892325581395
+"Milton Keynes",19.3051381578947
+"Mole Valley",8.51961111111111
+"New Forest",15.1041842105263
+"Newark and Sherwood",25.5826857142857
+"Newcastle upon Tyne",28.3129942857143
+"Newcastle-under-Lyme",23.64265
+"Newham",18.050993902439
+"North Devon",21.0448965517241
+"North East Derbyshire",23.0499047619048
+"North East Lincolnshire",36.7278490566038
+"North Hertfordshire",13.1220853658537
+"North Kesteven",13.6224375
+"North Lincolnshire",28.0418712871287
+"North Norfolk",24.5919032258065
+"North Somerset",16.9415407407407
+"North Tyneside",20.525
+"North Warwickshire",25.6435263157895
+"North West Leicestershire",22.0212068965517
+"Northampton",26.4633533834586
+"Northumberland",22.3997258883249
+"Norwich",34.4206265060241
+"Nottingham",38.1036263736264
+"Nuneaton and Bedworth",29.1445925925926
+"Oadby and Wigston",18.0528611111111
+"Oldham",34.110524822695
+"Oxford",17.3476144578313
+"Pendle",32.3148245614035
+"Peterborough",33.7532946428571
+"Plymouth",25.6551180124224
+"Portsmouth",27.713976
+"Preston",25.0515
+"Reading",21.2805154639175
+"Redbridge",10.9564223602484
+"Redcar and Cleveland",27.7453522727273
+"Redditch",27.9252
+"Reigate and Banstead",12.2434302325581
+"Ribble Valley",7.1792
+"Richmond upon Thames",3.48762608695652
+"Richmondshire",16.8443235294118
+"Rochdale",29.9236865671642
+"Rochford",20.7498867924528
+"Rossendale",22.6351627906977
+"Rother",19.609724137931
+"Rotherham",33.0754311377246
+"Rugby",15.3450983606557
+"Runnymede",13.8249615384615
+"Rushcliffe",6.09739705882353
+"Rushmoor",18.9152413793103
+"Rutland",7.43652173913044
+"Ryedale",18.0544666666667
+"Salford",30.4801133333333
+"Sandwell",37.0176666666667
+"Scarborough",29.0347323943662
+"Sedgemoor",25.5702142857143
+"Sefton",20.8205978835979
+"Selby",18.62338
+"Sevenoaks",13.4669594594595
+"Sheffield",29.0457072463768
+"Shropshire",18.0916994818653
+"Slough",20.078975
+"Solihull",18.8232910447761
+"Somerset West and Taunton",19.4467727272727
+"South Bucks",8.7813
+"South Cambridgeshire",6.66152083333333
+"South Derbyshire",21.1808275862069
+"South Gloucestershire",18.6400060606061
+"South Hams",8.62555102040816
+"South Holland",32.5715918367347
+"South Kesteven",16.4199382716049
+"South Lakeland",11.4721694915254
+"South Norfolk",15.5135308641975
+"South Northamptonshire",10.8318039215686
+"South Oxfordshire",11.6805505617978
+"South Ribble",14.4179714285714
+"South Somerset",20.0378932038835
+"South Staffordshire",16.9198970588235
+"South Tyneside",27.3882647058824
+"Southampton",27.4635675675676
+"Southend-on-Sea",24.5619626168224
+"Southwark",11.0912409638554
+"Spelthorne",18.08275
+"St Albans",4.97675862068966
+"St. Helens",27.759218487395
+"Stafford",13.9185875
+"Staffordshire Moorlands",18.5870847457627
+"Stevenage",25.4936153846154
+"Stockport",17.3132
+"Stockton-on-Tees",24.1991583333333
+"Stoke-on-Trent",38.6367169811321
+"Stratford-on-Avon",9.42501369863014
+"Stroud",12.0429275362319
+"Sunderland",30.6240324324324
+"Surrey Heath",9.62107272727273
+"Sutton",11.8278842975207
+"Swale",34.4556
+"Swindon",24.6423863636364
+"Tameside",28.6971134751773
+"Tamworth",30.9622745098039
+"Tandridge",12.72202
+"Teignbridge",15.4532023809524
+"Telford and Wrekin",28.27875
+"Tendring",35.1352921348315
+"Test Valley",13.3897042253521
+"Tewkesbury",15.79808
+"Thanet",31.2042738095238
+"Three Rivers",12.0341132075472
+"Thurrock",30.2631836734694
+"Tonbridge and Malling",16.9157777777778
+"Torbay",25.2439662921348
+"Torridge",24.0663243243243
+"Tower Hamlets",16.9623888888889
+"Trafford",10.5554275362319
+"Tunbridge Wells",12.5992794117647
+"Uttlesford",9.81136956521739
+"Vale of White Horse",11.9397894736842
+"Wakefield",35.705028708134
+"Walsall",36.9282874251497
+"Waltham Forest",16.9740208333333
+"Wandsworth",6.42886033519553
+"Warrington",18.7977559055118
+"Warwick",9.80290697674419
+"Watford",13.2279811320755
+"Waverley",7.74384146341463
+"Wealden",14.5770736842105
+"Wellingborough",29.9487021276596
+"Welwyn Hatfield",15.8664029850746
+"West Berkshire",13.4845773195876
+"West Devon",12.9997096774194
+"West Lancashire",19.4041506849315
+"West Lindsey",20.2983653846154
+"West Oxfordshire",13.595696969697
+"West Suffolk",22.91802
+"Westminster",8.3206328125
+"Wigan",26.459195
+"Wiltshire",16.7828105263158
+"Winchester",9.04461428571429
+"Windsor and Maidenhead",9.2404606741573
+"Wirral",21.3580485436893
+"Woking",9.96970491803279
+"Wokingham",6.27474747474747
+"Wolverhampton",31.1148987341772
+"Worcester",21.3477619047619
+"Worthing",18.5032153846154
+"Wychavon",17.3089615384615
+"Wycombe",13.6092336448598
+"Wyre",20.4972898550725
+"Wyre Forest",24.6951384615385
+"York",15.9486583333333
