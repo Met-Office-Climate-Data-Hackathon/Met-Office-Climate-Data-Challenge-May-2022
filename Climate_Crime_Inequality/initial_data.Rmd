@@ -6,6 +6,12 @@ output: html_notebook
 
 ```{r echo = FALSE}
 library(tidyverse)
+library(maps)
+library(mapdata)
+library(maptools)
+library(rgdal)
+library(ggmap)
+library(broom)
 ```
 
 ```{r echo=FALSE}
@@ -14,42 +20,50 @@ gini_data <- readr::read_csv(file.path(dir, "Gini_coeff.csv"),
                              skip=7,
                              col_names = c("Region", "July_2006_June_2008", "April_2016_March_2018"))
 ifs_data <- readr::read_csv(file.path(dir, "inequality_ifs.csv"), skip=2)
+hist_crime <- readr::read_csv(file.path(dir, "historical_crime.csv"))[3:14,]
 crime_2016 <- readr::read_csv(file.path(dir, "data_2016.csv"))
-````
+
+crime_data <- readr::read_csv(file.path(dir, "combined_crime.csv"))
+region_shape <- readOGR(dsn = file.path(dir, "Region_shape"), layer= "RGN_DEC_2021_EN_BFC")
+county_shape <- readOGR(dsn=file.path(dir, "County_shape"), layer="CTYUA_DEC_2021_UK_BFC")
+map_data = tidy(region_shape)
+county_data = tidy(county_shape)
+
+```
 
 ```{r}
 gini_data
 ```
 
+Combine Gini and crime data
 ```{r}
-sort(crime_2016$`Area Name`)
+crime_data$Region[crime_data$Region == "Yorkshire and the Humber"] = "Yorks and the Humber"
+crime_data$Region[crime_data$Region == "West Midlands Region"] = "West Midlands"
+crime_data$Region[crime_data$Region == "East"] = "East of England"
+crime_and_gini <- left_join(crime_data, dplyr::select(gini_data, Region, Gini_coeff = April_2016_March_2018))
+crime_and_gini <- mutate(crime_and_gini, Violent_crime = (`Violence against the person` + `Homicide` + `Violence with injury` + `Violence without injury`)/4)
+```
+
+Summarise violent crime over regions
+```{r}
+crime_and_gini_mean <- group_by(crime_and_gini, Region) %>% summarise(across(c("Violent_crime", "Gini_coeff"), mean))
+ggplot(group_by(crime_and_gini_mean)) + geom_point(aes(x = Gini_coeff, y = Violent_crime, col=Region))
+
+```
+
+Combine region shape with regional crime and Gini data
+```{r}
+region_ids <- data.frame(Region = c("North East", "North West", "Yorks and the Humber", "East Midlands", "West Midlands", "East of England", "London","South East", "South West"),
+                         id = as.character(unique(region_shape@data$OBJECTID) - 1))
+map_data <- left_join(map_data, region_ids, by="id") %>% left_join(crime_and_gini_mean, by="Region")
 ```
 
 ```{r}
-London = c("Metropolitan Police", "London, City of")
-East = c("Bedfordshire", "Cambridgeshire", "Essex", "Hertfordshire", "Norfolk", "Suffolk")
-South_East = c("Hampshire", "Kent", "Surrey", "Sussex", "Thames Valley")
-South_West = c("Avon & Somerset", "Devon & Cornwall", "Dorset", "Gloucestershire", "Wiltshire")
-East_Midlands = c("Derbyshire", "Leicestershire", "Lincolnshire", "Northamptonshire", "Nottinghamshire")
-West_Midlands = c("Staffordshire", "Warwickshire", "West Mercia", "West Midlands")
-Yorks_and_the_Humber = c("Humberside", "North Yorkshire", "South Yorkshire", "West Yorkshire")
-North_East = c("Cleveland", "Durham", "Northumbria")
-North_West = c("Cheshire", "Cumbria", "Greater Manchester", "Merseyside", "Lancashire")
-NI = c("Police Service of Northern Ireland")
-Wales = c("Dyfed-Powys", "North Wales", "South Wales", "Gwent")
-crime_2016 <- mutate(crime_2016, Region = case_when(`Area Name` %in% London ~ "London",
-                     `Area Name` %in% East ~ "East of England",
-                     `Area Name` %in% South_East ~ "South East",
-                     `Area Name` %in% South_West ~ "South West",
-                     `Area Name` %in% East_Midlands ~ "East Midlands",
-                     `Area Name` %in% West_Midlands ~ "West Midlands",
-                     `Area Name` %in% Yorks_and_the_Humber ~ "Yorks and the Humber",
-                     `Area Name` %in% North_East ~ "North East",
-                     `Area Name` %in% North_West ~ "North West",
-                     `Area Name` %in% Wales ~ "Wales"))
-crime_and_gini <- inner_join(crime_2016, dplyr::select(gini_data, Region, Gini_coeff = April_2016_March_2018))
-crime_and_gini
-```
+ggplot(arrange(map_data, id, order)) +  geom_polygon(aes(x=long, y=lat, group = id, fill=Gini_coeff)) + coord_equal()
+ggplot(arrange(map_data, id, order)) +  geom_polygon(aes(x=long, y=lat, group = id, fill=Violent_crime)) + coord_equal()
+````
+
+
 
 ```{r}
 ifs_data
@@ -85,3 +99,6 @@ Plot crime and Gini together
 ```{r}
 ggplot(crime_and_gini) + geom_point(aes(Gini_coeff, `Total recorded crime (excluding fraud)`, col = Region))
 ```
+
+
+
