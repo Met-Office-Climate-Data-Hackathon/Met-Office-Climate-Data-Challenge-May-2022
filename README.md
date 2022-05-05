@@ -4,10 +4,10 @@
 AON - Understanding drivers of uncertainty in future loss projections.
 
 ## Sensitivity analysis:
-Changes in residential building exposure, risk and costs in the 2050s due to climate change.
+Changes in residential building exposure and replacement costs by mid-century due to climate change.
 
 ## Scenarios:
-Socio-economic Pathways (SSPs 1 and 5) given changes in population and urbanisation.
+Socio-economic Pathways (SSPs 1 and 5) assuming future changes in population and urbanisation.
 
 ## Contents: 
 - *data/*: SSP datasets
