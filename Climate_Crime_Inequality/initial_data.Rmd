@@ -14,6 +14,7 @@ library(ggmap)
 library(broom)
 ```
 
+Load data
 ```{r echo=FALSE}
 dir <- "/net/home/h05/irushby/github/Climate_hackathon/Met-Office-Climate-Data-Challenge-May-2022/Climate_Crime_Inequality"
 gini_data <- readr::read_csv(file.path(dir, "Gini_coeff.csv"),
@@ -26,29 +27,31 @@ crime_2016 <- readr::read_csv(file.path(dir, "data_2016.csv"))
 crime_data <- readr::read_csv(file.path(dir, "combined_crime.csv"))
 region_shape <- readOGR(dsn = file.path(dir, "Region_shape"), layer= "RGN_DEC_2021_EN_BFC")
 county_shape <- readOGR(dsn=file.path(dir, "County_shape"), layer="CTYUA_DEC_2021_UK_BFC")
-map_data = tidy(region_shape)
-county_data = tidy(county_shape)
-
+map_data <- tidy(region_shape)
+county_data <- tidy(county_shape)
 ```
 
+Load demographic data
 ```{r}
-gini_data
+health <- readr::read_csv(file.path(dir, "health_score.csv"))[1:2]
+env <- readr::read_csv(file.path(dir, "env_score.csv"))[1:2]
+poverty <- readr::read_csv(file.path(dir, "poverty_score.csv"))[1:2]
+shelter <- readr::read_csv(file.path(dir, "shelter_score.csv"))[1:2]
+skills <- readr::read_csv(file.path(dir, "skills_score.csv"))[1:2]
+scores <- full_join(health, env)
+for (data in list(env, poverty, shelter, skills)) {
+  head(data)
+  scores <- full_join(scores, data)
+  
+}
+scores <- rename(scores, Area = Name)
 ```
 
-Combine Gini and crime data
+Align region names between crime and Gini data
 ```{r}
 crime_data$Region[crime_data$Region == "Yorkshire and the Humber"] = "Yorks and the Humber"
 crime_data$Region[crime_data$Region == "West Midlands Region"] = "West Midlands"
 crime_data$Region[crime_data$Region == "East"] = "East of England"
-crime_and_gini <- left_join(crime_data, dplyr::select(gini_data, Region, Gini_coeff = April_2016_March_2018))
-crime_and_gini <- mutate(crime_and_gini, Violent_crime = (`Violence against the person` + `Homicide` + `Violence with injury` + `Violence without injury`)/4)
-```
-
-Summarise violent crime over regions
-```{r}
-crime_and_gini_mean <- group_by(crime_and_gini, Region) %>% summarise(across(c("Violent_crime", "Gini_coeff"), mean))
-ggplot(group_by(crime_and_gini_mean)) + geom_point(aes(x = Gini_coeff, y = Violent_crime, col=Region))
-
 ```
 
 Combine region shape with regional crime and Gini data
@@ -58,11 +61,49 @@ region_ids <- data.frame(Region = c("North East", "North West", "Yorks and the H
 map_data <- left_join(map_data, region_ids, by="id") %>% left_join(crime_and_gini_mean, by="Region")
 ```
 
+Spatial plots
 ```{r}
-ggplot(arrange(map_data, id, order)) +  geom_polygon(aes(x=long, y=lat, group = id, fill=Gini_coeff)) + coord_equal()
-ggplot(arrange(map_data, id, order)) +  geom_polygon(aes(x=long, y=lat, group = id, fill=Violent_crime)) + coord_equal()
+ggplot(arrange(map_data, id, order)) +  geom_polygon(aes(x=long, y=lat, group = id, fill=Gini_coeff)) + coord_equal()+scale_fill_continuous("Gini Coefficient")
+ggsave(file.path(dir, "gini_region_map.png"))
+ggplot(arrange(map_data, id, order)) +  geom_polygon(aes(x=long, y=lat, group = id, fill=Violent_crime)) + coord_equal()+scale_fill_continuous("Violent crime")
+ggsave(file.path(dir, "violent_crime_region_map.png"))
 ````
 
+```{r}
+ggplot(county_data)+  geom_polygon(aes(x=long, y=lat, group = id)) + coord_equal()
+ggsave(file.path(dir, "county_map.png"))
+```
+
+Combine crime, demographics, and Gini data 
+```{r}
+crime_data <- mutate(crime_data, Violent_crime = `Violence against the person`, Property_crime = (`Robbery`+`Theft offences`)/2) %>% group_by(Region)%>%summarise(across(c("Violent_crime", "Homicide", "Property_crime", "Domestic burglary"), mean))
+region_table <- readr::read_csv(file.path(dir, "region_table.csv")) 
+region_table$Region[region_table$Region == "Yorkshire and the Humber"] = "Yorks and the Humber"
+region_table <- region_table %>% dplyr::select(Area = `Local Authority`, Region)%>% right_join(scores) %>% group_by(Region) %>% summarise(across(c("mean_health_score", "mean_income_score", "mean_environment_score", "mean_housing_score", "mean_education_score"), mean))%>% left_join(crime_data, by="Region")%>%filter(Region!="NA") %>% left_join(dplyr::select(gini_data, Region, Gini_coeff = April_2016_March_2018))
+
+```
+
+Scatter plots
+```{r echo=FALSE}
+plot_vars <- function(region_table, xvar, yvar, xlabel, ylabel){
+  temp_data <- dplyr::select(region_table, X := {{xvar}}, Y := {{yvar}}, Region)
+  ggplot(temp_data) + geom_point(aes(x = X, y = Y, col=Region), size=7)+xlab(xlabel)+ylab(ylabel)
+  ggsave(file.path(dir, paste0(xvar, "and", yvar, ".png")), width=20, height=15, units="cm")
+}
+```
+```{r}
+plot_vars(region_table, "Gini_coeff", "Violent_crime", "Gini Coefficient", "Violent Crime")
+plot_vars(region_table, "Gini_coeff", "Homicide", "Gini Coefficient", "Homicide")
+plot_vars(region_table, "mean_income_score", "Homicide", "Mean Income Score", "Homicide")
+plot_vars(region_table, "mean_income_score", "Violent_crime", "Mean Income Score", "Violent Crime")
+plot_vars(region_table, "mean_income_score", "Property_crime", "Mean Income Score", "Total Property Crime")
+plot_vars(region_table, "mean_income_score", "Domestic burglary", "Mean Income Score", "Domestic Burglary")
+plot_vars(region_table, "mean_health_score", "mean_income_score", "Mean Health Score", "Mean Income Score")
+plot_vars(region_table, "mean_health_score", "Violent_crime", "Mean Health Score", "Violent Crime")
+plot_vars(region_table, "mean_health_score", "Property_crime", "Mean Health Score", "Property Crime")
+plot_vars(region_table, "mean_education_score", "Property_crime", "Mean Education Score", "Total Property Crime")
+plot_vars(region_table, "mean_housing_score", "Property_crime", "Mean Housing Score", "Total Property Crime")
+```
 
 
 ```{r}
@@ -71,8 +112,7 @@ ifs_gini_data <- filter(ifs_data, Country=="UK") %>% dplyr::select(Year, Gini = 
 ifs_gini_data
 ``` 
 
-
-
+Horizontal bar plots
 ```{r}
 ggplot(arrange(gini_data, (April_2016_March_2018))) +
   geom_col(aes(factor(Region, levels=unique(Region)), April_2016_March_2018)) +
@@ -90,15 +130,5 @@ for (var in crime_vars) {
 }
 
 ```
-
-Take population data and find rates per 100,000 people
-Aggregate over whole region
-
-Plot crime variables 
-Plot crime and Gini together
-```{r}
-ggplot(crime_and_gini) + geom_point(aes(Gini_coeff, `Total recorded crime (excluding fraud)`, col = Region))
-```
-
 
 
