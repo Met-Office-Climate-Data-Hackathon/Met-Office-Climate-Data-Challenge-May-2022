@@ -1,0 +1,48 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(mgcv)
+library(tibble)
+library(dplyr)
+library(tidyverse)
+```
+
+Load data
+
+```{r}
+df <- as_tibble(read_csv("mps.borough.crime.2010-2021.csv"))
+sdf <- filter(df, MajorText == 'Public Order Offences' & borough == 'Westminster') %>% drop_na()
+
+hotdays <- as_tibble(read_csv("/net/home/h03/hsteptoe/lib/Met-Office-Climate-Data-Challenge-May-2022/climate_data/monthly_meantemp_hotdays_London_2001_2022.csv", 
+    col_types = cols(period_start = col_date(format = "%d/%m/%Y"), 
+       days_gt_15C = col_integer(), days_gt_20C = col_integer(), 
+       days_gt_25C = col_integer(), days_gt_30C = col_integer())))
+hotdays <- hotdays %>% rename(date = period_start)
+
+sdf <- left_join(sdf, hotdays, by='date')
+
+holidays <- as_tibble(BH_weekend_days <- read_excel("BH_weekend_days.xlsx")) %>% replace(is.na(.), 0) %>%
+  mutate(date = make_date(year = Year, month = MonthN)) %>% select(-c(Year, Month, MonthN))
+
+sdf <- left_join(sdf, holidays, by='date')
+
+```
+
+
+```{r}
+fmla <- list(value ~ s(month, bs='cc', k=12) + s(year, bs='gp'),
+                    ~ s(month, bs='cc', k=12) + s(year, k=3))
+
+m <- gamm(value/dim ~ s(month, bs='cc', k=12) + s(year) + te(month, year) + s(TNWD, k=2), data = sdf, method = "REML", family = Gamma(),
+          correlation = corARMA(form = ~ 1|year, p = 1))
+
+m2 <- bam(value ~ s(month, bs='cc', k=12, m=2) + s(month, bs='cc', k=12, by=bfac, m=1) + s(year, k=3, m=2) + s(year, k=3, by=bfac, m=1) + s(bfac, bs="re", k=33), data=df, method="REML", family=ziP)
+```
+
